@@ -31,6 +31,21 @@ class Server {
             }
         })
     }
+
+    fetchUser(id) {
+        $.ajax(`/api/v1/users/${id}`, {
+            method: "GET",
+            dataType: "json",
+            contentType: "application/json; charset=UTF=8",
+            data: "",
+            success: function(response) {
+                store.dispatch({
+                    type: 'USER_DETAIL',
+                    data: response.data
+                })
+            }
+        });
+    }
 }
 
 export default new Server();

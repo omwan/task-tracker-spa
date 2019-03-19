@@ -1,6 +1,6 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import _ from "lodash";
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import api from './api';
 
@@ -21,7 +21,7 @@ function Header(props) {
         </div>;
 
         accountInfo = <li className="nav-item">
-            <a className="nav-link" href="">Create Account</a>
+            <Link className="nav-link" to={"/users/new"}>Create Account</Link>
         </li>;
     } else {
         sessionInfo = <ul className="navbar-nav login-form">
@@ -31,8 +31,9 @@ function Header(props) {
             </li>
         </ul>;
 
+        api.fetchUser(session.user_id);
         accountInfo = <li className="nav-item">
-            <a className="nav-link" href="">My account</a>
+            <Link className="nav-link" to={`/users/${session.user_id}`}>My account</Link>
         </li>;
     }
 
@@ -43,8 +44,10 @@ function Header(props) {
     function logout() {
         dispatch({
             type: "DELETE_SESSION",
-            data: null
-        })
+        });
+        dispatch({
+            type: "USER_LOGGED_OUT",
+        });
     }
 
     function update(data) {
@@ -58,7 +61,7 @@ function Header(props) {
         <a className="navbar-brand">Task Tracker</a>
         <ul className="navbar-nav">
             <li className="nav-item">
-                <a className="nav-link" href="/">Home</a>
+                <Link className="nav-link" to={"/"}>Home</Link>
             </li>
             {accountInfo}
         </ul>

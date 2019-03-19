@@ -1,4 +1,4 @@
-import { createStore, combineReducers } from 'redux';
+import {createStore, combineReducers} from 'redux';
 import deepFreeze from 'deep-freeze';
 import _ from "lodash";
 
@@ -31,10 +31,23 @@ function tasks(state = [], action) {
     }
 }
 
+function user(state = null, action) {
+    switch (action.type) {
+        case 'USER_DETAIL':
+            return action.data;
+        case 'USER_LOGGED_OUT':
+            return null;
+        case 'UPDATE_USER_FORM':
+            return _.assign({}, state, action.data);
+        default:
+            return state;
+    }
+}
+
 function rootReducer(state, action) {
     console.log("before reducer", state, action);
 
-    let reducer = combineReducers({session, loginForm, tasks});
+    let reducer = combineReducers({session, loginForm, tasks, user});
     let newState = reducer(state, action);
 
     console.log("after reducer", newState);
