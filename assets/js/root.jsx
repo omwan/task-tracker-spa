@@ -7,6 +7,7 @@ import {Provider} from 'react-redux';
 import api from './api';
 
 import Header from './header';
+import TaskList from './task_list';
 
 export default function root_init(node, store) {
     ReactDOM.render(
@@ -19,12 +20,13 @@ class Root extends React.Component {
     constructor(props) {
         super(props);
 
-        api.create_session("olivia@example.com", "password1");
+        api.fetchTasks();
     }
 
     render() {
         return <div>
             <Header/>
+            <TaskList/>
         </div>
     }
 }

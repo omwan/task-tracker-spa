@@ -21,23 +21,23 @@ function Header(props) {
         </div>;
 
         accountInfo = <li className="nav-item">
-            Create Account
+            <a className="nav-link" href="">Create Account</a>
         </li>;
     } else {
         sessionInfo = <ul className="navbar-nav login-form">
             <li className="nav-item">
-                Logged in as {session.user_id} |&nbsp;
+                Logged in as {session.username} |&nbsp;
                 <a href="javascript:void(0)" onClick={logout}>Logout</a>
             </li>
         </ul>;
 
         accountInfo = <li className="nav-item">
-            My account
+            <a className="nav-link" href="">My account</a>
         </li>;
     }
 
     function login() {
-        api.create_session(loginForm.username, loginForm.password);
+        api.createSession(loginForm.username, loginForm.password);
     }
 
     function logout() {
@@ -55,8 +55,11 @@ function Header(props) {
     }
 
     return <nav className="navbar navbar-expand-lg navbar-light bg-white justify-content-between">
-        <a className="navbar-brand" href="/">Task Tracker</a>
+        <a className="navbar-brand">Task Tracker</a>
         <ul className="navbar-nav">
+            <li className="nav-item">
+                <a className="nav-link" href="/">Home</a>
+            </li>
             {accountInfo}
         </ul>
         {sessionInfo}

@@ -22,10 +22,19 @@ function loginForm(state = {username: "", password: ""}, action) {
     }
 }
 
+function tasks(state = [], action) {
+    switch (action.type) {
+        case 'TASK_LIST':
+            return action.data;
+        default:
+            return state;
+    }
+}
+
 function rootReducer(state, action) {
     console.log("before reducer", state, action);
 
-    let reducer = combineReducers({session, loginForm});
+    let reducer = combineReducers({session, loginForm, tasks});
     let newState = reducer(state, action);
 
     console.log("after reducer", newState);
