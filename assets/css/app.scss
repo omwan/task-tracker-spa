@@ -1,1 +1,15 @@
 @import "~bootstrap/scss/bootstrap";
+
+nav {
+  min-height: 70px;
+}
+
+.login-form {
+  min-width: 450px;
+  text-align: right;
+
+  li {
+    text-align: right;
+    width:100%;
+  }
+}

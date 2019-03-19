@@ -14,6 +14,7 @@ defmodule TaskTrackerSpaWeb.AuthController do
         data: %{
           token: Phoenix.Token.sign(TaskTrackerSpaWeb.Endpoint, "user_id", user.id),
           user_id: user.id,
+          username: user.username
         }
       }
 
