@@ -23,7 +23,7 @@ class Server {
             dataType: "json",
             contentType: "application/json; charset=UTF-8",
             data: "",
-            success: function(response) {
+            success: function (response) {
                 store.dispatch({
                     type: 'TASK_LIST',
                     data: response.data
@@ -36,15 +36,45 @@ class Server {
         $.ajax(`/api/v1/users/${id}`, {
             method: "GET",
             dataType: "json",
-            contentType: "application/json; charset=UTF=8",
+            contentType: "application/json; charset=UTF-8",
             data: "",
-            success: function(response) {
+            success: function (response) {
                 store.dispatch({
                     type: 'USER_DETAIL',
                     data: response.data
                 })
             }
         });
+    }
+
+    fetchTask(id) {
+        $.ajax(`/api/v1/tasks/${id}`, {
+            method: "GET",
+            dataType: "json",
+            contentType: "application/json; charset=UTF-8",
+            data: "",
+            success: function (response) {
+                store.dispatch({
+                    type: 'TASK_DETAIL',
+                    data: response.data
+                })
+            }
+        });
+    }
+
+    updateTask(id, body) {
+        $.ajax(`/api/v1/tasks/${id}`, {
+            method: "PUT",
+            dataType: "json",
+            contentType: "application/json; charset=UTF-8",
+            data: JSON.stringify(body),
+            success: function (response) {
+                store.dispatch({
+                    type: 'TASK_DETAIL',
+                    data: response.data
+                })
+            }
+        })
     }
 }
 

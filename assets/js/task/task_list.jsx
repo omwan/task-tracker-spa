@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 
 function TaskList(props) {
     let {tasks, dispatch} = props;
@@ -25,6 +26,13 @@ function TaskList(props) {
             {taskList}
             </tbody>
         </table>
+        <div className="row">
+            <div className="col-md-12">
+                <Link to={"/tasks/new"}>
+                    <button className="btn btn-primary">New Task</button>
+                </Link>
+            </div>
+        </div>
     </div>;
 }
 
@@ -46,8 +54,12 @@ function Task(props) {
             {assignee}
         </td>
         <td className="text-right">
-            <button className="btn btn-default">Show</button>
-            <button className="btn btn-default">Edit</button>
+            <Link to={`/tasks/${task.id}`}>
+                <button className="btn btn-default">Show</button>
+            </Link>
+            <Link to={`/tasks/${task.id}/edit`}>
+                <button className="btn btn-default">Edit</button>
+            </Link>
             <button className="btn btn-danger">Delete</button>
         </td>
     </tr>

@@ -21,6 +21,11 @@ defmodule TaskTrackerSpaWeb.Router do
     get "/users/new", PageController, :index
     get "/users/:id/edit", PageController, :index
     get "/users/new", PageController, :index
+
+    get "/tasks/:id", PageController, :index
+    get "/tasks/new", PageController, :index
+    get "/tasks/:id/edit", PageController, :index
+    get "/tasks/new", PageController, :index
   end
 
   scope "/api/v1", TaskTrackerSpaWeb do

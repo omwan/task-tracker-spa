@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 function UserDetail(props) {
-    console.log(props);
     let {user} = props;
 
     let userDetail;
@@ -42,4 +41,4 @@ function stateToProps(state) {
     }
 }
 
-export default connect(stateToProps)(UserDetail)
+export default connect(stateToProps)(UserDetail);

@@ -31,6 +31,26 @@ function tasks(state = [], action) {
     }
 }
 
+function task(state = null, action) {
+    switch (action.type) {
+        case 'TASK_DETAIL':
+            return action.data;
+        case 'UPDATE_TASK_FORM':
+            return _.assign({}, state, action.data);
+        default:
+            return state;
+    }
+}
+
+function taskFormSubmitted(state = false, action) {
+    switch (action.type) {
+        case 'TASK_FORM_SUBMITTED':
+            return action.data;
+        default:
+            return state;
+    }
+}
+
 function user(state = null, action) {
     switch (action.type) {
         case 'USER_DETAIL':
@@ -47,7 +67,7 @@ function user(state = null, action) {
 function rootReducer(state, action) {
     console.log("before reducer", state, action);
 
-    let reducer = combineReducers({session, loginForm, tasks, user});
+    let reducer = combineReducers({session, loginForm, tasks, task, taskFormSubmitted, user});
     let newState = reducer(state, action);
 
     console.log("after reducer", newState);
