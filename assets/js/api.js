@@ -4,10 +4,10 @@ import $ from "jquery";
 class Server {
     parseErrorMessage(status, exception) {
         let responseText = JSON.parse(status.responseText).errors;
+        console.log(responseText);
         let errors = _.map(responseText, function(value, key) {
             return `${key} ${value}`;
         }).join(" and ");
-        console.log(responseText);
         alert(`The following fields must be fixed: ${errors}`)
     }
 
@@ -23,20 +23,20 @@ class Server {
         });
     }
 
-    getData(url, success) {
-        this.executeAjax("GET", url, {}, "", success);
+    getData(url, success, error = undefined) {
+        this.executeAjax("GET", url, {}, "", success, error);
     }
 
-    postData(url, headers, data, success) {
-        this.executeAjax("POST", url, headers, data, success);
+    postData(url, headers, data, success, error = undefined) {
+        this.executeAjax("POST", url, headers, data, success, error);
     }
 
-    putData(url, headers, data, success) {
-        this.executeAjax("PUT", url, headers, data, success);
+    putData(url, headers, data, success, error = undefined) {
+        this.executeAjax("PUT", url, headers, data, success, error);
     }
 
-    deleteData(url, headers, success) {
-        this.executeAjax("DELETE", url, headers, "", success)
+    deleteData(url, headers, success, error = undefined) {
+        this.executeAjax("DELETE", url, headers, "", success, error);
     }
 
     createSession(username, password) {
@@ -46,8 +46,11 @@ class Server {
                 data: response.data
             });
         };
+        let errorFunction = function(status, exception) {
+            alert(JSON.parse(status.responseText).error);
+        };
         let body = {username, password};
-        this.postData("/api/v1/auth", {}, body, successFunction);
+        this.postData("/api/v1/auth", {}, body, successFunction, errorFunction);
     }
 
     deleteSession() {

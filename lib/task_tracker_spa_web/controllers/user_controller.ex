@@ -12,15 +12,25 @@ defmodule TaskTrackerSpaWeb.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    password_hash = Argon2.hash_pwd_salt(user_params["password"])
-    user_params_with_pw = user_params
-      |> Map.put("password_hash", password_hash)
-      |> Map.delete("password")
-    with {:ok, %User{} = user} <- Users.create_user(user_params_with_pw) do
-      conn
-      |> put_status(:created)
-      |> put_resp_header("location", Routes.user_path(conn, :show, user))
-      |> render("show.json", user: user)
+    if user_params["password"] == "" do
+      with {:ok, %User{} = user} <- Users.create_user(user_params) do
+        conn
+        |> put_status(:created)
+        |> put_resp_header("location", Routes.user_path(conn, :show, user))
+        |> render("show.json", user: user)
+      end
+    else
+      password_hash = Argon2.hash_pwd_salt(user_params["password"])
+      user_params_with_pw = user_params
+                            |> Map.put("password_hash", password_hash)
+                            |> Map.delete("password")
+
+      with {:ok, %User{} = user} <- Users.create_user(user_params_with_pw) do
+        conn
+        |> put_status(:created)
+        |> put_resp_header("location", Routes.user_path(conn, :show, user))
+        |> render("show.json", user: user)
+      end
     end
   end
 
