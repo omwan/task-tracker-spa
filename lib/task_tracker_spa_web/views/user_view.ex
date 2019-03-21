@@ -11,8 +11,10 @@ defmodule TaskTrackerSpaWeb.UserView do
   end
 
   def render("user.json", %{user: user}) do
-    %{id: user.id,
+    %{
+      id: user.id,
       username: user.username,
-      admin: user.admin}
+      admin: user.admin
+    }
   end
 end

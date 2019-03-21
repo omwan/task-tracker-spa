@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {Provider} from 'react-redux';
 
 import api from './api';
+import store from './store';
 
 import Header from './header';
 
@@ -26,6 +27,9 @@ export default function root_init(node, store) {
 class Root extends React.Component {
     constructor(props) {
         super(props);
+
+        api.fetchTasks();
+        api.fetchUsers();
     }
 
     render() {
@@ -37,11 +41,26 @@ class Root extends React.Component {
                         <Route path="/" exact={true}
                                render={() => {
                                    api.fetchTasks();
+                                   api.fetchUsers();
+                                   store.dispatch({
+                                       type: 'TASK_FORM_SUBMITTED',
+                                       data: false
+                                   });
                                    return <TaskList/>;
                                }}/>
                         <Switch>
                             <Route path="/users/new" exact={true}
-                                   render={() => <NewUser/>}/>
+                                   render={() => {
+                                       store.dispatch({
+                                           type: 'USER_DETAIL',
+                                           data: {
+                                               username: "",
+                                               password: "",
+                                               admin: false
+                                           }
+                                       });
+                                       return <NewUser/>;
+                                   }}/>
                             <Route path="/users/:id" exact={true}
                                    render={({match}) => {
                                        api.fetchUser(match.params.id);
@@ -56,6 +75,17 @@ class Root extends React.Component {
                         <Switch>
                             <Route path="/tasks/new" exact={true}
                                    render={() => {
+                                       store.dispatch({
+                                           type: 'TASK_DETAIL',
+                                           data: {
+                                               name: "",
+                                               description: "",
+                                               complete: false,
+                                               time_spent: 0,
+                                               user: null,
+                                               user_id: ""
+                                           }
+                                       });
                                        return <NewTask/>;
                                    }}/>
                             <Route path="/tasks/:id" exact={true}

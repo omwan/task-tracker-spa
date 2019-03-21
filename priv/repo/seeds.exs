@@ -42,6 +42,5 @@ Repo.insert!(
 Repo.insert!(
   %Task{
     name: "study",
-    user: a
   }
 )

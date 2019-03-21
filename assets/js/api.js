@@ -17,19 +17,19 @@ class Server {
         })
     }
 
-    fetchTasks() {
-        $.ajax("/api/v1/tasks", {
+    fetchUsers() {
+        $.ajax(`/api/v1/users`, {
             method: "GET",
             dataType: "json",
             contentType: "application/json; charset=UTF-8",
             data: "",
             success: function (response) {
                 store.dispatch({
-                    type: 'TASK_LIST',
+                    type: 'USER_LIST',
                     data: response.data
                 })
             }
-        })
+        });
     }
 
     fetchUser(id) {
@@ -45,6 +45,21 @@ class Server {
                 })
             }
         });
+    }
+
+    fetchTasks() {
+        $.ajax("/api/v1/tasks", {
+            method: "GET",
+            dataType: "json",
+            contentType: "application/json; charset=UTF-8",
+            data: "",
+            success: function (response) {
+                store.dispatch({
+                    type: 'TASK_LIST',
+                    data: response.data
+                })
+            }
+        })
     }
 
     fetchTask(id) {
@@ -73,6 +88,36 @@ class Server {
                     type: 'TASK_DETAIL',
                     data: response.data
                 })
+            }
+        });
+    }
+
+    createTask(body) {
+        $.ajax(`/api/v1/tasks`, {
+            method: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=UTF-8",
+            data: JSON.stringify(body),
+            success: function (response) {
+                store.dispatch({
+                    type: 'TASK_DETAIL',
+                    data: response.data
+                })
+            }
+        });
+    }
+
+    deleteTask(id) {
+        $.ajax(`/api/v1/tasks/${id}`, {
+            method: "DELETE",
+            dataType: "json",
+            contentType: "application/json; charset=UTF-8",
+            data: "",
+            success: function(response) {
+                store.dispatch({
+                    type: 'DELETE_TASK',
+                    taskId: id
+                });
             }
         })
     }

@@ -7,7 +7,7 @@ import api from '../api';
 import TaskForm from './task_form';
 
 function EditTask(props) {
-    let {task, taskFormSubmitted, dispatch} = props;
+    let {task, taskFormSubmitted, users, dispatch} = props;
 
     let submitFunction = function (event) {
         event.preventDefault();
@@ -28,13 +28,15 @@ function EditTask(props) {
     } else if (taskFormSubmitted) {
         return <Redirect to={"/"}/>
     } else {
-        return <TaskForm task={task} dispatch={dispatch} submitFunction={submitFunction.bind(this)}/>;
+        return <TaskForm task={task} users={users}
+                         dispatch={dispatch} submitFunction={submitFunction.bind(this)}/>;
     }
 }
 
 function stateToProps(state) {
     return {
         task: state.task,
+        users: state.users,
         taskFormSubmitted: state.taskFormSubmitted
     };
 }

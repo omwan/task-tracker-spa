@@ -26,6 +26,10 @@ function tasks(state = [], action) {
     switch (action.type) {
         case 'TASK_LIST':
             return action.data;
+        case 'DELETE_TASK':
+            return _.filter(state, function(task) {
+                return task.id !== action.taskId
+            });
         default:
             return state;
     }
@@ -51,6 +55,16 @@ function taskFormSubmitted(state = false, action) {
     }
 }
 
+function users(state = [], action) {
+    switch (action.type) {
+        case 'USER_LIST':
+            return action.data;
+        default:
+            return state;
+    }
+
+}
+
 function user(state = null, action) {
     switch (action.type) {
         case 'USER_DETAIL':
@@ -67,7 +81,11 @@ function user(state = null, action) {
 function rootReducer(state, action) {
     console.log("before reducer", state, action);
 
-    let reducer = combineReducers({session, loginForm, tasks, task, taskFormSubmitted, user});
+    let reducer = combineReducers({
+        session, loginForm,
+        tasks, task, taskFormSubmitted,
+        users, user
+    });
     let newState = reducer(state, action);
 
     console.log("after reducer", newState);

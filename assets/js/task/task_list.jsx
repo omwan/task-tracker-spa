@@ -3,6 +3,8 @@ import _ from 'lodash';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 
+import api from '../api';
+
 function TaskList(props) {
     let {tasks, dispatch} = props;
 
@@ -60,7 +62,12 @@ function Task(props) {
             <Link to={`/tasks/${task.id}/edit`}>
                 <button className="btn btn-default">Edit</button>
             </Link>
-            <button className="btn btn-danger">Delete</button>
+            <button className="btn btn-danger" onClick={() => {
+                let confirmed = confirm("Are you sure?");
+                if (confirmed) {
+                    api.deleteTask(task.id);
+                }
+            }}>Delete</button>
         </td>
     </tr>
 }
