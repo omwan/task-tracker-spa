@@ -2,7 +2,16 @@ import store from './store';
 import $ from "jquery";
 
 class Server {
-    executeAjax(method, url, headers, data, success, error = function(){}) {
+    parseErrorMessage(status, exception) {
+        let responseText = JSON.parse(status.responseText).errors;
+        let errors = _.map(responseText, function(value, key) {
+            return `${key} ${value}`;
+        }).join(" and ");
+        console.log(responseText);
+        alert(`The following fields must be fixed: ${errors}`)
+    }
+
+    executeAjax(method, url, headers, data, success, error = this.parseErrorMessage) {
         $.ajax(url, {
             method: method,
             headers: headers,
@@ -14,20 +23,20 @@ class Server {
         });
     }
 
-    getData(url, success, error = function(){}) {
-        this.executeAjax("GET", url, {}, "", success, error);
+    getData(url, success) {
+        this.executeAjax("GET", url, {}, "", success);
     }
 
-    postData(url, headers, data, success, error = function(){}) {
-        this.executeAjax("POST", url, headers, data, success, error);
+    postData(url, headers, data, success) {
+        this.executeAjax("POST", url, headers, data, success);
     }
 
-    putData(url, headers, data, success, error = function(){}) {
-        this.executeAjax("PUT", url, headers, data, success, error);
+    putData(url, headers, data, success) {
+        this.executeAjax("PUT", url, headers, data, success);
     }
 
-    deleteData(url, headers, success, error = function(){}) {
-        this.executeAjax("DELETE", url, headers, "", success, error)
+    deleteData(url, headers, success) {
+        this.executeAjax("DELETE", url, headers, "", success)
     }
 
     createSession(username, password) {
