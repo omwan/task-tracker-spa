@@ -73,6 +73,16 @@ class Server {
         this.getData(`/api/v1/users/${id}`, successFunction);
     }
 
+    createUser(body) {
+        let successFunction = function(response) {
+            store.dispatch({
+                type: 'USER_FORM_SUBMITTED',
+                data: true
+            })
+        };
+        this.postData("/api/v1/users", {}, body, successFunction);
+    }
+
     fetchTasks() {
         let successFunction = function(response) {
             store.dispatch({

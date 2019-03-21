@@ -1,20 +1,36 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
+
+import api from '../api';
 
 import UserForm from './user_form';
 
-function NewUser(props) {
-    let {dispatch} = props;
+function NewTask(props) {
+    let {userFormSubmitted, dispatch} = props;
 
-    let submitFunction = function() {
-        console.log("ney user");
+    let submitFunction = function (event) {
+        event.preventDefault();
+        let formData = new FormData(event.target);
+        let newUser = {};
+        formData.forEach(function (value, key) {
+            newUser[key] = value;
+        });
+        api.createUser({user: newUser});
     };
 
-    return <UserForm user={null} dispatch={dispatch} submitFunction={submitFunction} />;
+    if (userFormSubmitted) {
+        return <Redirect to={"/"}/>
+    } else {
+        return <UserForm dispatch={dispatch} submitFunction={submitFunction}/>;
+    }
 }
 
 function stateToProps(state) {
-    return {};
+    return {
+        user: state.user,
+        userFormSubmitted: state.userFormSubmitted
+    };
 }
 
-export default connect(stateToProps)(NewUser);
+export default connect(stateToProps)(NewTask);

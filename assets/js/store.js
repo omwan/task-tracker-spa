@@ -78,17 +78,22 @@ function user(state = null, action) {
     }
 }
 
-function rootReducer(state, action) {
-    console.log("before reducer", state, action);
+function userFormSubmitted(state = false, action) {
+    switch (action.type) {
+        case 'USER_FORM_SUBMITTED':
+            return action.data
+        default:
+            return state;
+    }
+}
 
+function rootReducer(state, action) {
     let reducer = combineReducers({
         session, loginForm,
         tasks, task, taskFormSubmitted,
-        users, user
+        users, user, userFormSubmitted
     });
     let newState = reducer(state, action);
-
-    console.log("after reducer", newState);
     return deepFreeze(newState);
 }
 

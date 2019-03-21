@@ -53,6 +53,10 @@ class Root extends React.Component {
                                        type: 'TASK_FORM_SUBMITTED',
                                        data: false
                                    });
+                                   store.dispatch({
+                                       type: 'USER_FORM_SUBMITTED',
+                                       data: false
+                                   });
                                    return <TaskList/>;
                                }}/>
                         <Switch>
