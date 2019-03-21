@@ -7,7 +7,7 @@ class Server {
             method: method,
             dataType: "json",
             contentType: "application/json; charset=UTF-8",
-            data: JSON.stringify(data),
+            data: data === "" ? data : JSON.stringify(data),
             success: success,
             error: error
         });

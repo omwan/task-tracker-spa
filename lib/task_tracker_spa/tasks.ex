@@ -55,7 +55,7 @@ defmodule TaskTrackerSpa.Tasks do
 
   """
   def create_task(attrs \\ %{}) do
-    %Task{}
+    %Task{user: nil}
     |> Task.changeset(attrs)
     |> Repo.insert()
   end
