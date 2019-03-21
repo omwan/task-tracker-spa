@@ -42,12 +42,7 @@ function Header(props) {
     }
 
     function logout() {
-        dispatch({
-            type: "DELETE_SESSION",
-        });
-        dispatch({
-            type: "USER_LOGGED_OUT",
-        });
+        api.deleteSession();
     }
 
     function update(data) {

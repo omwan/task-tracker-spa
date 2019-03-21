@@ -11,6 +11,7 @@ defmodule TaskTrackerSpaWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
   end
 
   scope "/", TaskTrackerSpaWeb do
@@ -35,5 +36,6 @@ defmodule TaskTrackerSpaWeb.Router do
     resources "/tasks", TaskController, except: [:new, :edit]
 
     post "/auth", AuthController, :authenticate
+    delete "/auth", AuthController, :logout
   end
 end

@@ -17,6 +17,23 @@ class Server {
         })
     }
 
+    deleteSession() {
+        $.ajax("/api/v1/auth", {
+            method: "DELETE",
+            dataType: "json",
+            contentType: "application/json; charset=UTF-8",
+            data: "",
+            success: function() {
+                store.dispatch({
+                    type: "DELETE_SESSION",
+                });
+                store.dispatch({
+                    type: "USER_LOGGED_OUT",
+                });
+            }
+        })
+    }
+
     fetchUsers() {
         $.ajax(`/api/v1/users`, {
             method: "GET",
@@ -113,7 +130,7 @@ class Server {
             dataType: "json",
             contentType: "application/json; charset=UTF-8",
             data: "",
-            success: function(response) {
+            success: function() {
                 store.dispatch({
                     type: 'DELETE_TASK',
                     taskId: id

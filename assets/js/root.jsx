@@ -30,6 +30,13 @@ class Root extends React.Component {
 
         api.fetchTasks();
         api.fetchUsers();
+
+        if (window.session !== null) {
+            store.dispatch({
+                type: 'NEW_SESSION',
+                data: window.session
+            });
+        }
     }
 
     render() {
