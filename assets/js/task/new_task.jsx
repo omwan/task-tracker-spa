@@ -17,10 +17,6 @@ function NewTask(props) {
             newTask[key] = value;
         });
         api.createTask({task: task});
-        dispatch({
-            type: 'TASK_FORM_SUBMITTED',
-            data: true
-        })
     };
 
     if (taskFormSubmitted) {

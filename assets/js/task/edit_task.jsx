@@ -17,10 +17,6 @@ function EditTask(props) {
             taskUpdates[key] = value;
         });
         api.updateTask(task.id, {task: task});
-        dispatch({
-            type: 'TASK_FORM_SUBMITTED',
-            data: true
-        });
     };
 
     if (task === null) {

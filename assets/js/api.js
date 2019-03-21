@@ -98,6 +98,10 @@ class Server {
                 type: 'TASK_DETAIL',
                 data: response.data
             });
+            store.dispatch({
+                type: 'TASK_FORM_SUBMITTED',
+                data: true
+            });
         };
         this.putData(`/api/v1/tasks/${id}`, body, successFunction);
     }
@@ -107,6 +111,10 @@ class Server {
             store.dispatch({
                 type: 'TASK_DETAIL',
                 data: response.data
+            });
+            store.dispatch({
+                type: 'TASK_FORM_SUBMITTED',
+                data: true
             });
         };
         this.postData("/api/v1/tasks", body, successFunction);
