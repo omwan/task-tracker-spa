@@ -1,0 +1,16 @@
+[Unit]
+Description=Task Tracker Single-Page App
+
+[Service]
+Type=simple
+User=task_tracker_3
+Group=task_tracker_3
+Restart=on-failure
+Environment=MIX_ENV=prod "PORT=4796"
+Environment=LANG=en_US.UTF-8
+
+WorkingDirectory=/home/task_tracker_3/task-tracker-spa
+ExecStart=/home/task_tracker_3/task-tracker-spa/start.sh
+
+[Install]
+WantedBy=multi-user.target
