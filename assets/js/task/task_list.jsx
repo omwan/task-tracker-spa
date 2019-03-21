@@ -6,11 +6,23 @@ import {Link} from 'react-router-dom';
 import api from '../api';
 
 function TaskList(props) {
-    let {tasks, dispatch} = props;
+    let {tasks, session, dispatch} = props;
 
     let taskList = _.map(tasks, function (task, index) {
-        return <Task key={index} task={task} dispatch={dispatch}/>;
+        return <Task key={index} task={task} session={session} dispatch={dispatch}/>;
     });
+
+    let newTaskButton;
+
+    if (session) {
+        newTaskButton = <div className="row">
+            <div className="col-md-12">
+                <Link to={"/tasks/new"}>
+                    <button className="btn btn-primary">New Task</button>
+                </Link>
+            </div>
+        </div>;
+    }
 
     return <div className="row tasks">
         <h2>All Tasks</h2>
@@ -28,24 +40,32 @@ function TaskList(props) {
             {taskList}
             </tbody>
         </table>
-        <div className="row">
-            <div className="col-md-12">
-                <Link to={"/tasks/new"}>
-                    <button className="btn btn-primary">New Task</button>
-                </Link>
-            </div>
-        </div>
+        {newTaskButton}
     </div>;
 }
 
 function Task(props) {
-    let {index, task, dispatch} = props;
+    let {index, task, session, dispatch} = props;
 
     let assignee;
     if (task.user) {
         assignee = task.user.username;
     } else {
         assignee = "No user assigned";
+    }
+
+    let editButton;
+    let deleteButton;
+    if (session) {
+        editButton = <Link to={`/tasks/${task.id}/edit`}>
+            <button className="btn btn-default">Edit</button>
+        </Link>;
+        deleteButton = <button className="btn btn-danger" onClick={() => {
+            let confirmed = confirm("Are you sure?");
+            if (confirmed) {
+                api.deleteTask(task.id, session.token);
+            }
+        }}>Delete</button>;
     }
 
     return <tr>
@@ -59,22 +79,16 @@ function Task(props) {
             <Link to={`/tasks/${task.id}`}>
                 <button className="btn btn-default">Show</button>
             </Link>
-            <Link to={`/tasks/${task.id}/edit`}>
-                <button className="btn btn-default">Edit</button>
-            </Link>
-            <button className="btn btn-danger" onClick={() => {
-                let confirmed = confirm("Are you sure?");
-                if (confirmed) {
-                    api.deleteTask(task.id);
-                }
-            }}>Delete</button>
+            {editButton}
+            {deleteButton}
         </td>
     </tr>
 }
 
 function stateToProps(state) {
     return {
-        tasks: state.tasks
+        tasks: state.tasks,
+        session: state.session
     };
 }
 

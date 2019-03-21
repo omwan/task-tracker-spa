@@ -7,7 +7,7 @@ import api from '../api';
 import TaskForm from './task_form';
 
 function EditTask(props) {
-    let {task, taskFormSubmitted, users, dispatch} = props;
+    let {task, taskFormSubmitted, users, session, dispatch} = props;
 
     let submitFunction = function (event) {
         event.preventDefault();
@@ -16,7 +16,7 @@ function EditTask(props) {
         formData.forEach(function (value, key) {
             taskUpdates[key] = value;
         });
-        api.updateTask(task.id, {task: task});
+        api.updateTask(task.id, {task: task}, session.token);
     };
 
     if (task === null) {
@@ -33,7 +33,8 @@ function stateToProps(state) {
     return {
         task: state.task,
         users: state.users,
-        taskFormSubmitted: state.taskFormSubmitted
+        taskFormSubmitted: state.taskFormSubmitted,
+        session: state.session
     };
 }
 

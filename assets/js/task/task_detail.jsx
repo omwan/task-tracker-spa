@@ -3,9 +3,16 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 
 function TaskDetail(props) {
-    let {task} = props;
+    let {task, session} = props;
 
     let assignee = task && task.user ? task.user.username : "No user assigned";
+
+    let editButton;
+    if (session) {
+        editButton = <Link to={`/tasks/${task.id}/edit`}>
+            <button className="btn btn-primary">Edit</button>
+        </Link>;
+    }
 
     if (task !== null) {
         return <div className="col-md-12">
@@ -32,9 +39,7 @@ function TaskDetail(props) {
                     {assignee}
                 </li>
             </ul>
-            <Link to={`/tasks/${task.id}/edit`}>
-                <button className="btn btn-primary">Edit</button>
-            </Link>
+            {editButton}
             <Link to={`/`}>
                 <button className="btn btn-default">Back</button>
             </Link>
@@ -46,7 +51,8 @@ function TaskDetail(props) {
 
 function stateToProps(state) {
     return {
-        task: state.task
+        task: state.task,
+        session: state.session
     }
 }
 

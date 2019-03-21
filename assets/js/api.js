@@ -2,9 +2,10 @@ import store from './store';
 import $ from "jquery";
 
 class Server {
-    executeAjax(method, url, data, success, error = function(){}) {
+    executeAjax(method, url, headers, data, success, error = function(){}) {
         $.ajax(url, {
             method: method,
+            headers: headers,
             dataType: "json",
             contentType: "application/json; charset=UTF-8",
             data: data === "" ? data : JSON.stringify(data),
@@ -14,19 +15,19 @@ class Server {
     }
 
     getData(url, success, error = function(){}) {
-        this.executeAjax("GET", url, "", success, error);
+        this.executeAjax("GET", url, {}, "", success, error);
     }
 
-    postData(url, data, success, error = function(){}) {
-        this.executeAjax("POST", url, data, success, error);
+    postData(url, headers, data, success, error = function(){}) {
+        this.executeAjax("POST", url, headers, data, success, error);
     }
 
-    putData(url, data, success, error = function(){}) {
-        this.executeAjax("PUT", url, data, success, error);
+    putData(url, headers, data, success, error = function(){}) {
+        this.executeAjax("PUT", url, headers, data, success, error);
     }
 
-    deleteData(url, success, error = function(){}) {
-        this.executeAjax("DELETE", url, "", success, error)
+    deleteData(url, headers, success, error = function(){}) {
+        this.executeAjax("DELETE", url, headers, "", success, error)
     }
 
     createSession(username, password) {
@@ -37,7 +38,7 @@ class Server {
             });
         };
         let body = {username, password};
-        this.postData("/api/v1/auth", body, successFunction);
+        this.postData("/api/v1/auth", {}, body, successFunction);
     }
 
     deleteSession() {
@@ -49,7 +50,7 @@ class Server {
                 type: "USER_LOGGED_OUT",
             });
         };
-        this.deleteData("/api/v1/auth", successFunction);
+        this.deleteData("/api/v1/auth", {}, successFunction);
     }
 
     fetchUsers() {
@@ -92,7 +93,7 @@ class Server {
         this.getData(`/api/v1/tasks/${id}`, successFunction);
     }
 
-    updateTask(id, body) {
+    updateTask(id, body, token) {
         let successFunction = function (response) {
             store.dispatch({
                 type: 'TASK_DETAIL',
@@ -103,10 +104,10 @@ class Server {
                 data: true
             });
         };
-        this.putData(`/api/v1/tasks/${id}`, body, successFunction);
+        this.putData(`/api/v1/tasks/${id}`, {"x-auth": token}, body, successFunction);
     }
 
-    createTask(body) {
+    createTask(body, token) {
         let successFunction = function(response) {
             store.dispatch({
                 type: 'TASK_DETAIL',
@@ -117,18 +118,17 @@ class Server {
                 data: true
             });
         };
-        this.postData("/api/v1/tasks", body, successFunction);
+        this.postData("/api/v1/tasks", {"x-auth": token}, body, successFunction);
     }
 
-    deleteTask(id) {
+    deleteTask(id, token) {
         let successFunction = function() {
-            console.log("hey");
             store.dispatch({
                 type: 'DELETE_TASK',
                 taskId: id
             });
         };
-        this.deleteData(`/api/v1/tasks/${id}`, successFunction);
+        this.deleteData(`/api/v1/tasks/${id}`, {"x-auth": token}, successFunction);
     }
 }
 
