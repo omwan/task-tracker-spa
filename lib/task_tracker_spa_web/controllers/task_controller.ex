@@ -4,6 +4,8 @@ defmodule TaskTrackerSpaWeb.TaskController do
   alias TaskTrackerSpa.Tasks
   alias TaskTrackerSpa.Tasks.Task
 
+  alias TaskTrackerSpaWeb.Plugs.RequireAuth
+
   action_fallback TaskTrackerSpaWeb.FallbackController
 
   def index(conn, _params) do
@@ -40,4 +42,6 @@ defmodule TaskTrackerSpaWeb.TaskController do
       send_resp(conn, :no_content, "")
     end
   end
+
+#  plug RequireAuth when action in [:create, :update, :delete]
 end

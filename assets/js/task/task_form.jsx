@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
 function TaskForm(props) {
     let {task, users, dispatch, submitFunction} = props;
@@ -71,4 +72,11 @@ function TaskForm(props) {
     }
 }
 
-export default TaskForm;
+function stateToProps(state) {
+    return {
+        task: state.task,
+        users: state.users
+    };
+}
+
+export default connect(stateToProps)(TaskForm);

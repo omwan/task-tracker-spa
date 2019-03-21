@@ -2,9 +2,10 @@ import store from './store';
 import $ from "jquery";
 
 class Server {
-    executeAjax(method, url, data, success, error = function(){}) {
+    executeAjax(method, url, headers, data, success, error = function(){}) {
         $.ajax(url, {
             method: method,
+            headers: headers,
             dataType: "json",
             contentType: "application/json; charset=UTF-8",
             data: JSON.stringify(data),
@@ -14,19 +15,19 @@ class Server {
     }
 
     getData(url, success, error = function(){}) {
-        this.executeAjax("GET", url, "", success, error);
+        this.executeAjax("GET", url, {}, "", success, error);
     }
 
     postData(url, data, success, error = function(){}) {
-        this.executeAjax("POST", url, data, success, error);
+        this.executeAjax("POST", url, {}, data, success, error);
     }
 
     putData(url, data, success, error = function(){}) {
-        this.executeAjax("PUT", url, data, success, error);
+        this.executeAjax("PUT", url, {}, data, success, error);
     }
 
     deleteData(url, success, error = function(){}) {
-        this.executeAjax("DELETE", url, "", success, error)
+        this.executeAjax("DELETE", url, {}, "", success, error)
     }
 
     createSession(username, password) {
