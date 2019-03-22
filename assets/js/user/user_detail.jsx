@@ -24,9 +24,6 @@ function UserDetail(props) {
                     {JSON.stringify(user.admin)}
                 </li>
             </ul>
-            <Link to={`/users/${user.id}/edit`}>
-                <button className="btn btn-primary">Edit</button>
-            </Link>
         </div>;
     }
 
